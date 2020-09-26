@@ -1,0 +1,48 @@
+#!/bin/bash
+# Usage: rbenv doctor
+# Summary: Detects common problems in rbenv installation
+
+set -e
+[ -n "$RBENV_DEBUG" ] && set -x
+
+indent() {
+  sed 's/^/  /'
+}
+
+printc() {
+  local color_name="color_$1"
+  local fmt="$2"
+  shift 2
+
+  if [[ $fmt == *"\n" ]]; then
+    fmt="${!color_name}${fmt%\\n}${color_reset}\n"
+  else
+    fmt="${!color_name}${fmt}${color_reset}"
+  fi
+
+  printf "$fmt" "$@"
+}
+
+if [ -t 1 ]; then
+  color_red=$'\e[31m'
+  color_green=$'\e[32m'
+  color_yellow=$'\e[1;33m'
+  color_bright=$'\e[1;37m'
+  color_reset=$'\e[0m'
+else
+  color_red=""
+  color_green=""
+  color_yellow=""
+  color_bright=""
+  color_reset=""
+fi
+
+warnings=0
+
+if [ $(uname -s) = "Darwin" ]; then
+  bashrc=".bash_profile"
+else
+  bashrc=".bashrc"
+fi
+
+echo "Start installing hotspot"
