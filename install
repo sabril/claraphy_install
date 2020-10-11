@@ -45,3 +45,10 @@ else
 fi
 
 echo "Start installing hotspot"
+
+# get mac address
+MAC_ADDRESS=$(ifconfig eth0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
+
+echo "MAC ADDRESS: $MAC_ADDRESS"
+
+#end
